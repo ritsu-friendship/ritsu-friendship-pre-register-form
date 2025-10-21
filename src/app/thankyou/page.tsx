@@ -1,11 +1,11 @@
-export default async function ThankYouPage({
+"use client";
+
+export default function ThankYouPage({
   searchParams,
 }: {
-  searchParams?: Promise<Record<string, string | string[] | undefined> | undefined>;
+  searchParams?: Record<string, string | string[] | undefined>;
 }) {
-  // Next.js types expect searchParams to be a Promise; await to get the value
-  const sp = (await searchParams) as Record<string, string | string[] | undefined> | undefined;
-  const rawName = sp?.name;
+  const rawName = searchParams?.name;
   const nameStr = Array.isArray(rawName) ? rawName[0] : rawName;
   const name = nameStr ?? "ユーザー";
 
@@ -26,8 +26,6 @@ export default async function ThankYouPage({
           <span className="text-emerald-600 font-bold">20回</span>付与されました！
         </h1>
       </div>
-
-      {/* カスタムアニメーションは globals.css に移動しました */}
     </div>
   );
 }
