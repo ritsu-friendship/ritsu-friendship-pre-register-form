@@ -1,9 +1,13 @@
-"use client";
-import { useSearchParams } from "next/navigation";
-
-export default function ThankYouPage() {
-  const params = useSearchParams();
-  const name = params.get("name");
+export default async function ThankYouPage({
+  searchParams,
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined> | undefined>;
+}) {
+  // Next.js types expect searchParams to be a Promise; await to get the value
+  const sp = (await searchParams) as Record<string, string | string[] | undefined> | undefined;
+  const rawName = sp?.name;
+  const nameStr = Array.isArray(rawName) ? rawName[0] : rawName;
+  const name = nameStr ?? "ユーザー";
 
   return (
     <div className="relative flex justify-center items-center h-screen overflow-hidden">
@@ -17,28 +21,13 @@ export default function ThankYouPage() {
       {/* サンクスメッセージ */}
       <div className="relative z-10 text-center px-6">
         <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
-          {name || "ユーザー"}さん、ありがとうございます！<br />
+          {name}さん、ありがとうございます！<br />
           スワイプ回数が{" "}
           <span className="text-emerald-600 font-bold">20回</span>付与されました！
         </h1>
       </div>
 
-      {/* カスタムアニメーション用CSS */}
-      <style jsx>{`
-        @keyframes pulse-slow {
-          0%, 100% {
-            transform: scale(1);
-            opacity: 0.6;
-          }
-          50% {
-            transform: scale(1.1);
-            opacity: 0.9;
-          }
-        }
-        .animate-pulse-slow {
-          animation: pulse-slow 8s ease-in-out infinite;
-        }
-      `}</style>
+      {/* カスタムアニメーションは globals.css に移動しました */}
     </div>
   );
 }
