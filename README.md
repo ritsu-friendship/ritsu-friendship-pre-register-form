@@ -1,0 +1,1 @@
+# ritsu-friendship-pre-register-form
