@@ -1,11 +1,10 @@
-"use client";
-
-export default function ThankYouPage({
+export default async function ThankYouPage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<Record<string, string | string[] | undefined> | undefined>;
 }) {
-  const rawName = searchParams?.name;
+  const sp = (await searchParams) as Record<string, string | string[] | undefined> | undefined;
+  const rawName = sp?.name;
   const nameStr = Array.isArray(rawName) ? rawName[0] : rawName;
   const name = nameStr ?? "ユーザー";
 

@@ -1,13 +1,14 @@
-"use client";
-
 import LoginForm from "./LoginForm";
 
-export default function LoginPage({
+export default async function LoginPage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<Record<string, string | string[] | undefined> | undefined>;
 }) {
-  const rawName = searchParams?.name;
+  const sp = (await searchParams) as
+    | Record<string, string | string[] | undefined>
+    | undefined;
+  const rawName = sp?.name;
   const name = Array.isArray(rawName) ? rawName[0] : rawName;
 
   return <LoginForm name={name} />;
